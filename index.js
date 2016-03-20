@@ -33,32 +33,40 @@ function Keygrip(keys) {
  */
 
 Keygrip.prototype = {
-  constructor: Keygrip,
-
-  get hash() {
-    return this._hash
-  },
-
-  set hash(val) {
-    if (!util.supportedHash(val))
-      throw new Error('unsupported hash algorithm: ' + val)
-    this._hash = val
-  },
-
-  get cipher() {
-    return this._cipher
-  },
-
-  set cipher(val) {
-    if (!util.supportedCipher(val))
-      throw new Error('unsupported cipher: ' + val)
-    this._cipher = val
-  },
-
   // defaults
   _hash: 'sha256',
   _cipher: 'aes-256-cbc',
 }
+
+Object.defineProperties(Keygrip.prototype, {
+  // modified Keygrip.prototype.constructor's enumerable = false
+  constructor: {
+    value: Keygrip,
+    enumerable: false,
+    writable: true,
+    configurable: true
+  },
+  
+  hash: {
+    get: () => {
+      return this._hash;
+    },
+    set: (val) => {
+      if (!util.supportedHash(val)) throw new Error('unsupported hash algorithm: ' + val);
+      this._cipher = val;
+    }
+  },
+  
+  cipher: {
+    get: () => {
+      return this._cipher;
+    },
+    set: (val) => {
+      if (!util.supportedCipher(val)) throw new Error('unsupported cipher: ' + val);
+      this._cipher = val;
+    }
+  }
+});
 
 // encrypt a message
 Keygrip.prototype.encrypt = function encrypt(data, iv, key) {
