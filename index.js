@@ -48,20 +48,20 @@ Object.defineProperties(Keygrip.prototype, {
   },
   
   hash: {
-    get: () => {
+    get: function() {
       return this._hash;
     },
-    set: (val) => {
+    set: function(val) {
       if (!util.supportedHash(val)) throw new Error('unsupported hash algorithm: ' + val);
       this._cipher = val;
     }
   },
   
   cipher: {
-    get: () => {
+    get: function() {
       return this._cipher;
     },
-    set: (val) => {
+    set: function(val) {
       if (!util.supportedCipher(val)) throw new Error('unsupported cipher: ' + val);
       this._cipher = val;
     }
